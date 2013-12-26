@@ -24,12 +24,12 @@ Verifying that it is valid.
 Finding out whether it is a RUT or a RUN.
 Format it to the correct format to use
 
-This package has been extensivily tested with xdebug, APC, PHPUnit testing and Suhosin so that no errors are present.
+This package has been extensivily tested with xdebug and is properly PHPUnit tested so that no errors are present.
 
 Basic usage
 ----------
 
-<pre>include('src/unreal4u/rutverifier.class.php');
+<pre>include('src/unreal4u/rutverifier.php');
 $rutVerifier = new unreal4u\rutverifier();
 $result = $rutVerifier->isValidRUT('30.686.957-4');
 </pre>
@@ -60,7 +60,7 @@ Now you can instantiate a new rutverifier class by executing:
 <pre>
 require('vendor/autoload.php');
 
-$localization = new unreal4u\rutverifier();
+$rutverifier = new unreal4u\rutverifier();
 </pre>
 
 Pending
@@ -83,6 +83,8 @@ Version History
     * Better documentation
 * 1.2.1:
     * Real compatibility with composer
+* 1.2.2:
+    * Minor bugs in documentation
 
 Contact the author
 -------

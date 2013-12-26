@@ -1,6 +1,6 @@
 <?php
 
-include('../src/unreal4u/rutverifier.class.php');
+include('../src/unreal4u/rutverifier.php');
 
 $rutVerifier = new unreal4u\rutverifier();
 

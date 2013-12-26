@@ -1,6 +1,6 @@
 <?php
 
-require_once '../src/unreal4u/rutverifier.class.php';
+require_once '../src/unreal4u/rutverifier.php';
 require_once 'PHPUnit/Framework/TestCase.php';
 
 /**
