@@ -1,5 +1,5 @@
-tests/report/*
-tests/logs/*
+tests/report
+tests/launchers
 .buildpath
 .settings
 .project

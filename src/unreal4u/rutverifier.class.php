@@ -1,6 +1,14 @@
 <?php
+/**
+ * Main class that defines the rutverifier class
+ *
+ * @author unreal4u
+ * @link https://github.com/unreal4u/rutverifier
+ * @package rutverifier
+ * @category mainClass
+ */
 
-namespace u4u;
+namespace unreal4u;
 
 /**
  * Chilean RUT or RUN verifier
@@ -19,10 +27,17 @@ namespace u4u;
  * @package RUTVerifier
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 1.1
+ * @version 1.2
  * @license BSD License
  */
 class rutverifier {
+
+    /**
+     * The version of this class
+     * @var string
+     */
+    private $classVersion = '1.2';
+
     /**
      * Stores errors of the class
      * @var array
@@ -56,6 +71,10 @@ class rutverifier {
         '888888888',
         '999999999',
     );
+
+    public function __toString() {
+        return basename(__FILE__).' v'.$this->classVersion.' by Camilo Sperberg - http://unreal4u.com/';
+    }
 
     /**
      * This function logs all errors the object generates
@@ -258,11 +277,10 @@ class rutverifier {
     }
 
     /**
-     * Retorna una función en JavaScript, más simple que su simil en PHP para verificar que el RUT está ingresado
-     * correctamente o no.
+     * Returns a function in JavaScript, a bit easier than it's PHP version to verify that the RUT is correct
      *
-     * @param $echo bool Para que se imprima la cadena inmediatamente dentro de la función
-     * @param $with_headers bool Para que se imprima la cadena con sus respectivas cabeceras.
+     * @param boolean $echo Whether to print it directly
+     * @param boolean $with_headers To output javascript headers also or return only javascript
      */
     public function c_javascript($echo=false, $with_headers=false) {
         $javascript = '';

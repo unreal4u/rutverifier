@@ -1,8 +1,6 @@
 <?php
 
-namespace u4u;
-
-require_once '../rutverifier.class.php';
+require_once '../src/unreal4u/rutverifier.class.php';
 require_once 'PHPUnit/Framework/TestCase.php';
 
 /**
@@ -19,7 +17,7 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         parent::setUp();
-        $this->rutverifier = new \u4u\rutverifier();
+        $this->rutverifier = new unreal4u\rutverifier();
     }
 
     /**
@@ -51,7 +49,7 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         $result = $this->rutverifier->addToBlacklist($rut);
 
         // Fix to make private property accesible
-        $reflector = new \ReflectionProperty('u4u\\rutverifier', 'blacklist');
+        $reflector = new \ReflectionProperty('unreal4u\\rutverifier', 'blacklist');
         $reflector->setAccessible(true);
         $elements = $reflector->getValue($this->rutverifier);
 

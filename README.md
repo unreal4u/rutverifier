@@ -14,7 +14,7 @@ About this class
 * Allows you to make use of a blacklist (Useful for known frauders).
 * Will also format the RUT/RUN into the correct format.
 * Can deliver also a pure Javascript coded version to verify the validity of a RUT/RUN
-    
+
 Detailed description
 ---------
 
@@ -29,12 +29,39 @@ This package has been extensivily tested with xdebug, APC, PHPUnit testing and S
 Basic usage
 ----------
 
-<pre>include('rutverifier.class.php');
-$rutVerifier = new rutverifier();
+<pre>include('src/unreal4u/rutverifier.class.php');
+$rutVerifier = new unreal4u\rutverifier();
 $result = $rutVerifier->isValidRUT('30.686.957-4');
 </pre>
 * Congratulations! Result does now contain true or false depending on the RUT/RUN being valid or not.
 * **Please see examples for more options and advanced usage**
+
+Composer
+----------
+
+This class has support for Composer install. Just add the following section to your composer.json with:
+
+<pre>
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/unreal4u/rutverifier"
+        }
+    ],
+    "require": {
+        "unreal4u/rutverifier": "@stable"
+    }
+}
+</pre>
+
+Now you can instantiate a new rutverifier class by executing:
+
+<pre>
+require('vendor/autoload.php');
+
+$localization = new unreal4u\rutverifier();
+</pre>
 
 Pending
 ---------
@@ -43,14 +70,17 @@ Pending
 Version History
 ----------
 
-* 1.0 : 
+* 1.0 :
     * Initial version
-    
+
 * 1.1:
     * PHPUnit testing
     * Documentation improved (Created this README actually)
     * More examples
     * Solved some bugs
+* 1.2:
+    * Compatibility with composer
+    * Better documentation
 
 Contact the author
 -------
