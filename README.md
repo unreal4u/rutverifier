@@ -81,6 +81,8 @@ Version History
 * 1.2:
     * Compatibility with composer
     * Better documentation
+* 1.2.1:
+    * Real compatibility with composer
 
 Contact the author
 -------
