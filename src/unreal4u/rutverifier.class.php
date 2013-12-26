@@ -93,9 +93,6 @@ class rutverifier {
                 case 2:
                     $tipo = 'WAR';
                 break;
-                case 3:
-                    $tipo = 'NOT';
-                break;
             }
 
             $this->errors[] = array(
