@@ -84,6 +84,8 @@ Version History
     * Better PHPUnit tests
     * Fixed a bug related to cache and blacklisting
     * Included PHPDocumentor to src code
+* 1.2.5:
+    * Excluded PHPDocumentation
 
 Contact the author
 -------

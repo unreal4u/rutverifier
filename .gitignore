@@ -5,3 +5,4 @@ tests/launchers
 .project
 vendor/
 composer.lock
+doc/
