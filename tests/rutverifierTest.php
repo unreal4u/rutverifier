@@ -34,8 +34,8 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
      * @return array
      */
     public function provider_addToBlacklist() {
-        $mapValues[] = array(123456789, 10);
-        $mapValues[] = array(array(123456789, 123456780), 11);
+        $mapValues[] = array(306869574, 10);
+        $mapValues[] = array(array(306869574, 36869577), 11);
 
         return $mapValues;
     }
@@ -58,9 +58,13 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         if (is_array($rut)) {
             foreach($rut AS $r) {
                 $this->assertContains($r, $elements);
+                $this->assertFalse($this->rutverifier->isValidRUT($r));
+                $this->assertTrue($this->rutverifier->isValidRUT($r, false));
             }
         } else {
             $this->assertContains($rut, $elements);
+            $this->assertFalse($this->rutverifier->isValidRUT($rut));
+            $this->assertTrue($this->rutverifier->isValidRUT($rut, false));
         }
     }
 
@@ -279,6 +283,11 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         $result = $this->rutverifier->c_javascript(true, true);
         $this->assertStringStartsWith('<script type="text/javascript">function rutVerification(c){', $result);
         ob_clean();
+    }
+
+    public function test___toString() {
+        $output = sprintf($this->rutverifier);
+        $this->assertStringStartsWith('rutverifier', $output);
     }
 }
 

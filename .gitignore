@@ -3,3 +3,5 @@ tests/launchers
 .buildpath
 .settings
 .project
+vendor/
+composer.lock

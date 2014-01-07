@@ -10,6 +10,6 @@ var_dump($rutVerifier->isValidRUT('306869574'));
 
 var_dump($rutVerifier->isValidRUT('30.686.957-0'));
 
-var_dump($rutVerifier->formatRUT(false));
+var_dump($rutVerifier->formatRUT('30.686.957-0', false));
 
 echo $rutVerifier;

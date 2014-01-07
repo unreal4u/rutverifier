@@ -79,6 +79,11 @@ Version History
     * Real compatibility with composer
 * 1.2.2:
     * Minor bugs in documentation
+* 1.2.4:
+    * Documentation
+    * Better PHPUnit tests
+    * Fixed a bug related to cache and blacklisting
+    * Included PHPDocumentor to src code
 
 Contact the author
 -------

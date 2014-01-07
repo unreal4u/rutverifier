@@ -4,8 +4,6 @@
  *
  * @author unreal4u
  * @link https://github.com/unreal4u/rutverifier
- * @package rutverifier
- * @category mainClass
  */
 
 namespace unreal4u;
@@ -13,22 +11,22 @@ namespace unreal4u;
 /**
  * Chilean RUT or RUN verifier
  *
- * A chilean RUT/RUN is any number between 1.000.000 and 99.999.999, where the first 50 million are reserved for normal
- * persons (RUN - Rol único nacional), and the last 50 millions are reserved for enterprise usage (RUT - Rol único
- * tributario). This number has also a basic verifier that is the last digit in the following secuence:
- * 12.345.678-9
- * So, the above example corresponds to a natural person, with run number 12.345.678 and verifier 9.
+ * <p>A chilean RUT/RUN is any number between 1.000.000 and 99.999.999, where the first 50 million are reserved for
+ * normal persons (RUN - Rol único nacional), and the last 50 millions are reserved for enterprise usage (RUT - Rol
+ * único tributario). This number has also a basic verifier that is the last digit in the following secuence:<br />
+ * 12.345.678-9<br />
+ * So, the above example corresponds to a natural person, with run number 12.345.678 and verifier 9.</p>
  *
- * This class can be used to check whether a RUT or RUN is a valid one, filtering some common invalid RUTs/RUNs out and
- * with the option to add more to this blacklist. Additionally, it is also capable of delivering a basic JavaScript
+ * <p>This class can be used to check whether a RUT or RUN is a valid one, filtering some common invalid RUTs/RUNs out
+ * and with the option to add more to this blacklist. Additionally, it is also capable of delivering a basic JavaScript
  * version which will return true or false depending on the RUT/RUN being valid or not. However, this JavaScript version
- * does not check blacklist and other more advanced stuff.
+ * does not check blacklist and other more advanced stuff.</p>
  *
- * @package RUTVerifier
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 1.2.3
+ * @version 1.2.4
  * @license BSD License
+ * @package rutverifier
  */
 class rutverifier {
 
@@ -36,7 +34,7 @@ class rutverifier {
      * The version of this class
      * @var string
      */
-    private $classVersion = '1.2.3';
+    private $classVersion = '1.2.4';
 
     /**
      * Stores errors of the class
@@ -49,12 +47,6 @@ class rutverifier {
      * @var boolean
      */
     private $error = false;
-
-    /**
-     * Stores the already validated emails as a sort of fast cache
-     * @var array
-     */
-    private $validated = array();
 
     /**
      * Blacklist of all those invalid RUTs
@@ -72,6 +64,10 @@ class rutverifier {
         '999999999',
     );
 
+    /**
+     * Prints version information of this class
+     * @return string
+     */
     public function __toString() {
         return basename(__FILE__).' v'.$this->classVersion.' by Camilo Sperberg - http://unreal4u.com/';
     }
@@ -141,15 +137,14 @@ class rutverifier {
             $rut = $this->formatRUT($rut);
             if ($rut !== false) {
                 $rut = substr($rut, 0, -1);
+                $output = array(
+                    'n',
+                    'natural',
+                );
                 if ($rut < 100000000 AND $rut > 50000000) {
                     $output = array(
                         'e',
                         'empresa',
-                    );
-                } elseif ($rut > 1000000 AND $rut < 50000000) {
-                    $output = array(
-                        'n',
-                        'natural',
                     );
                 }
             }
@@ -168,9 +163,12 @@ class rutverifier {
     public function formatRUT($rut='', $withVerifier=true) {
         $output = false;
         if (!empty($rut)) {
-            $tmpRUT = preg_replace('/[^0-9kK]/', '', $rut);
-            if (strlen($tmpRUT) == 8) {
-                $tmpRUT = '0' . $tmpRUT;
+            $tmpRUT = str_replace('k', 'K', preg_replace('/[^0-9kK]/', '', $rut));
+
+            if (strlen($tmpRUT) < 8) {
+                $this->logError(1, 'RUT/RUN doesn\'t have the required size');
+            } else {
+                $tmpRUT = str_pad($tmpRUT, 9, '0', STR_PAD_LEFT);
             }
 
             if (strlen($tmpRUT) == 9) {
@@ -231,12 +229,10 @@ class rutverifier {
      * @return mixed Returns boolean true if RUT/RUN is valid, false otherwise. Returns array with data if selected so
      */
     public function isValidRUT($rut, $extensive_check=true, $return_boolean=true) {
+        $isValid = false;
         $output = false;
-        if (!empty($rut)) {
-            if (!empty($this->validated[$rut])) {
-                return $this->validated[$rut]['isValid'];
-            }
 
+        if (!empty($rut)) {
             $rut = $this->formatRUT($rut, true);
             $sep['rut'] = substr($rut, 0, -1);
             $sep['dv'] = substr($rut, -1);
@@ -246,12 +242,12 @@ class rutverifier {
                 if ($sep['dvt'] != $sep['dv']) {
                     $this->logError(2, 'RUT/RUN (' . $sep['rut'] . ') and verifier (' . $sep['dv'] . ')  don\'t match');
                 } else {
-                    $output = true;
+                    $isValid = true;
                 }
 
                 if ($extensive_check === true) {
                     if (in_array($sep['rut'] . $sep['dv'], $this->blacklist)) {
-                        $output = false;
+                        $isValid = false;
                         $this->logError(2, 'The entered RUT/RUN "'.$sep['rut'].$sep['dv'].'" is in blacklist');
                     }
                 }
@@ -259,18 +255,18 @@ class rutverifier {
                 $this->logError(2, 'RUT/RUN isn\'t within range of natural person and/or enterprise');
             }
 
-            $this->validated[$rut] = array(
-                'isValid'  => $output,
+            $output[$rut] = array(
+                'isValid'  => $isValid,
                 'rut'      => $sep['rut'],
                 'verifier' => $sep['dv'],
                 'type'     => $this->RUTType($rut),
             );
         }
         if ($return_boolean === true) {
-            return $output;
+            return $isValid;
         }
 
-        return $this->validated;
+        return $output;
     }
 
     /**
