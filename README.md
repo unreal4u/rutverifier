@@ -20,9 +20,9 @@ Detailed description
 
 This package will do all kinds of things you can do with a RUT or RUN, such as:
 
-Verifying that it is valid.
-Finding out whether it is a RUT or a RUN.
-Format it to the correct format to use
+* Verifying that it is valid.
+* Finding out whether it is a RUT or a RUN.
+* Format it to the correct format to use
 
 This package has been extensivily tested with xdebug and is properly PHPUnit tested so that no errors are present.
 

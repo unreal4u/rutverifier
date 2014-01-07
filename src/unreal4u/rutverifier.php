@@ -24,7 +24,7 @@ namespace unreal4u;
  *
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 1.2.6
+ * @version 1.2.7
  * @license BSD License
  * @package rutverifier
  */
@@ -34,7 +34,7 @@ class rutverifier {
      * The version of this class
      * @var string
      */
-    private $classVersion = '1.2.6';
+    private $classVersion = '1.2.7';
 
     /**
      * Stores errors of the class
