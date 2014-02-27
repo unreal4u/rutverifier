@@ -1,6 +1,14 @@
 {
   "name" : "unreal4u/rutverifier",
   "description" : "This class is able to do integrity verification on chilean RUTs and RUNs",
+  "keywords" : [
+    "rutverifier",
+    "rut",
+    "run",
+    "cédula de identidad",
+    "chile",
+    "carnet de identidad"
+  ],
   "require" : {
     "php" : ">=5.3.0"
   },
