@@ -1,4 +1,6 @@
+[![Latest Stable Version](https://poser.pugx.org/unreal4u/rutverifier/v/stable.png)](https://packagist.org/packages/unreal4u/rutverifier)
 [![Build Status](https://travis-ci.org/unreal4u/rutverifier.png?branch=master)](https://travis-ci.org/unreal4u/rutverifier)
+[![License](https://poser.pugx.org/unreal4u/rutverifier/license.png)](https://packagist.org/packages/unreal4u/rutverifier)
 
 rutverifier.php
 ======
