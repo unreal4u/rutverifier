@@ -24,7 +24,7 @@ namespace unreal4u;
  *
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 1.2.7
+ * @version 1.2.8
  * @license BSD License
  * @package rutverifier
  */
@@ -34,7 +34,7 @@ class rutverifier {
      * The version of this class
      * @var string
      */
-    private $classVersion = '1.2.7';
+    private $classVersion = '1.2.8';
 
     /**
      * Stores errors of the class
@@ -79,20 +79,20 @@ class rutverifier {
      * @param string $msg Error message
      * @return boolean Returns always true
      */
-    private function logError($type, $msg='') {
+    private function _logError($type, $msg='') {
         if (!empty($type)) {
             switch ($type) {
                 case 1:
-                    $tipo = 'ERR';
+                    $typeString = 'ERR';
                     $this->error = true;
                 break;
                 case 2:
-                    $tipo = 'WAR';
+                    $typeString = 'WAR';
                 break;
             }
 
             $this->errors[] = array(
-                'type' => $tipo,
+                'type' => $typeString,
                 'msg' => $msg,
             );
         }
@@ -166,7 +166,7 @@ class rutverifier {
             $tmpRUT = str_replace('k', 'K', preg_replace('/[^0-9kK]/', '', $rut));
 
             if (strlen($tmpRUT) < 8) {
-                $this->logError(1, 'RUT/RUN doesn\'t have the required size');
+                $this->_logError(1, 'RUT/RUN doesn\'t have the required size');
             } else {
                 $tmpRUT = str_pad($tmpRUT, 9, '0', STR_PAD_LEFT);
             }
@@ -174,7 +174,7 @@ class rutverifier {
             if (strlen($tmpRUT) == 9) {
                 $output = str_replace('k', 'K', $tmpRUT);
             } else {
-                $this->logError(1, 'RUT/RUN doesn\'t have the required size');
+                $this->_logError(1, 'RUT/RUN doesn\'t have the required size');
             }
 
             if ($withVerifier === false AND empty($this->error)) {
@@ -224,11 +224,11 @@ class rutverifier {
      * This function will check whether the RUT/RUN is effectively valid or not
      *
      * @param string $rut RUT/RUN that will be checked
-     * @param boolean $extensive_check Whether to also check on blacklist. Defaults to true
-     * @param boolean $return_boolean Whether to return true or false or array with data
+     * @param boolean $extensiveCheck Whether to also check on blacklist. Defaults to true
+     * @param boolean $returnBoolean Whether to return true or false or array with data
      * @return mixed Returns boolean true if RUT/RUN is valid, false otherwise. Returns array with data if selected so
      */
-    public function isValidRUT($rut, $extensive_check=true, $return_boolean=true) {
+    public function isValidRUT($rut, $extensiveCheck=true, $returnBoolean=true) {
         $isValid = false;
         $output = false;
 
@@ -240,19 +240,19 @@ class rutverifier {
             if ($this->RUTType($rut) !== false) {
                 $sep['dvt'] = $this->getVerifier($sep['rut']);
                 if ($sep['dvt'] != $sep['dv']) {
-                    $this->logError(2, 'RUT/RUN (' . $sep['rut'] . ') and verifier (' . $sep['dv'] . ')  don\'t match');
+                    $this->_logError(2, 'RUT/RUN (' . $sep['rut'] . ') and verifier (' . $sep['dv'] . ')  don\'t match');
                 } else {
                     $isValid = true;
                 }
 
-                if ($extensive_check === true) {
+                if ($extensiveCheck === true) {
                     if (in_array($sep['rut'] . $sep['dv'], $this->blacklist)) {
                         $isValid = false;
-                        $this->logError(2, 'The entered RUT/RUN "'.$sep['rut'].$sep['dv'].'" is in blacklist');
+                        $this->_logError(2, 'The entered RUT/RUN "'.$sep['rut'].$sep['dv'].'" is in blacklist');
                     }
                 }
             } else {
-                $this->logError(2, 'RUT/RUN isn\'t within range of natural person and/or enterprise');
+                $this->_logError(2, 'RUT/RUN isn\'t within range of natural person and/or enterprise');
             }
 
             $output[$rut] = array(
@@ -262,7 +262,7 @@ class rutverifier {
                 'type'     => $this->RUTType($rut),
             );
         }
-        if ($return_boolean === true) {
+        if ($returnBoolean === true) {
             return $isValid;
         }
 
@@ -272,25 +272,32 @@ class rutverifier {
     /**
      * Returns a function in JavaScript, a bit easier than it's PHP version to verify that the RUT is correct
      *
-     * @param boolean $echo Whether to print it directly
-     * @param boolean $with_headers To output javascript headers also or return only javascript
+     * @param boolean $printIt Whether to print it directly
+     * @param boolean $withHeaders To output javascript headers also or return only javascript
      */
-    public function c_javascript($echo=false, $with_headers=false) {
-        $javascript = '';
+    public function constructJavascript($printIt=false, $withHeaders=false) {
+        $javascript = 'function rutVerification(c){var r=false,d=c.value,t=d.replace(/\b[^0-9kK]+\b/g,\'\');if(t.length==8){t=0+t;};if(t.length==9){var a=t.substring(t.length-1,-1),b=t.charAt(t.length-1);if(b==\'k\'){b=\'K\'};if(!isNaN(a)){var s=0,m=2,x=\'0\',e=0;for(var i=a.length-1;i>=0;i--){s=s+a.charAt(i)*m;if(m==7){m=2;}else{m++;};}var y=s%11;if(y==1){x=\'K\';}else{if(y==0){x=\'0\';}else{e=11-y;x=e+\'\';};};if(x==b){r=true;c.value=a.substring(0,2)+\'.\'+a.substring(2,5)+\'.\'+a.substring(5,8)+\'-\'+b};}}return r;};';
 
-        if ($with_headers === true) {
-            $javascript .= '<script type="text/javascript">';
-        }
-        $javascript .= 'function rutVerification(c){var r=false,d=c.value,t=d.replace(/\b[^0-9kK]+\b/g,\'\');if(t.length==8){t=0+t;};if(t.length==9){var a=t.substring(t.length-1,-1),b=t.charAt(t.length-1);if(b==\'k\'){b=\'K\'};if(!isNaN(a)){var s=0,m=2,x=\'0\',e=0;for(var i=a.length-1;i>=0;i--){s=s+a.charAt(i)*m;if(m==7){m=2;}else{m++;};}var y=s%11;if(y==1){x=\'K\';}else{if(y==0){x=\'0\';}else{e=11-y;x=e+\'\';};};if(x==b){r=true;c.value=a.substring(0,2)+\'.\'+a.substring(2,5)+\'.\'+a.substring(5,8)+\'-\'+b};}}return r;};';
-
-        if ($with_headers === true) {
-            $javascript .= '</script>';
+        if ($withHeaders === true) {
+            $javascript = '<script type="text/javascript">'.$javascript.'</script>';
         }
 
-        if ($echo === true) {
+        if ($printIt === true) {
             echo $javascript;
         }
 
         return $javascript;
+    }
+
+    /**
+     * Alias for constructJavascript. Will be removed in next mayor version
+     *
+     * @TODO CS@2014-02-27 Remove this on next mayor version
+     *
+     * @param boolean $echo
+     * @param boolean $with_headers
+     */
+    public function c_javascript($echo=false, $with_headers=false) {
+        return $this->constructJavascript($echo, $with_headers);
     }
 }

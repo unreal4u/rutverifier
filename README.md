@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/unreal4u/rutverifier.png?branch=master)](https://travis-ci.org/unreal4u/rutverifier)
+
 rutverifier.php
 ======
 
@@ -86,6 +88,10 @@ Version History
     * Included PHPDocumentor to src code
 * 1.2.6:
     * Excluded PHPDocumentation
+* 1.2.8:
+    * Travis-CI support
+    * Very small optimization on Javascript function
+    * Began deprecating some old naming conventions
 
 Contact the author
 -------
