@@ -54,16 +54,15 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue(count($elements) == $expected);
         $this->assertTrue($result == $expected);
-        if (is_array($rut)) {
-            foreach($rut AS $r) {
-                $this->assertContains($r, $elements);
-                $this->assertFalse($this->rutverifier->isValidRUT($r));
-                $this->assertTrue($this->rutverifier->isValidRUT($r, false));
-            }
-        } else {
-            $this->assertContains($rut, $elements);
-            $this->assertFalse($this->rutverifier->isValidRUT($rut));
-            $this->assertTrue($this->rutverifier->isValidRUT($rut, false));
+
+        if (!is_array($rut)) {
+            $rut = array($rut);
+        }
+
+        foreach($rut AS $r) {
+            $this->assertContains($r, $elements);
+            $this->assertFalse($this->rutverifier->isValidRUT($r));
+            $this->assertTrue($this->rutverifier->isValidRUT($r, false));
         }
     }
 
@@ -97,22 +96,22 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         $mapValues[] = array('3686.957-4', false, '03686957');
         $mapValues[] = array('3.686957-4', true, '036869574');
         $mapValues[] = array('3.686957-4', false, '03686957');
-        $mapValues[] = array('', true, false);
-        $mapValues[] = array('', false, false);
-        $mapValues[] = array(true, true, false);
-        $mapValues[] = array(true, false, false);
-        $mapValues[] = array(false, true, false);
-        $mapValues[] = array(false, false, false);
-        $mapValues[] = array(null, true, false);
-        $mapValues[] = array(null, false, false);
-        $mapValues[] = array(array(), true, false);
-        $mapValues[] = array(123456, false, false);
-        $mapValues[] = array(123.456, true, false);
-        $mapValues[] = array(123.456, false, false);
-        $mapValues[] = array(1, true, false);
-        $mapValues[] = array(1, false, false);
-        $mapValues[] = array(0, true, false);
-        $mapValues[] = array(0, false, false);
+        $mapValues[] = array('', true, '');
+        $mapValues[] = array('', false, '');
+        $mapValues[] = array(true, true, '');
+        $mapValues[] = array(true, false, '');
+        $mapValues[] = array(false, true, '');
+        $mapValues[] = array(false, false, '');
+        $mapValues[] = array(null, true, '');
+        $mapValues[] = array(null, false, '');
+        $mapValues[] = array(array(), true, '');
+        $mapValues[] = array(123456, false, '');
+        $mapValues[] = array(123.456, true, '');
+        $mapValues[] = array(123.456, false, '');
+        $mapValues[] = array(1, true, '');
+        $mapValues[] = array(1, false, '');
+        $mapValues[] = array(0, true, '');
+        $mapValues[] = array(0, false, '');
 
         return $mapValues;
     }
@@ -128,12 +127,7 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
      */
     public function test_formatRUT($rut='', $con_dv=true, $expected) {
         $result = $this->rutverifier->formatRUT($rut, $con_dv);
-
-        if ($expected === false) {
-            $this->assertFalse($result);
-        } else {
-            $this->assertEquals($expected, $result);
-        }
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -144,14 +138,14 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         $mapValues[] = array('11.111.111-1', array('n', 'natural'));
         $mapValues[] = array('77.777.777-7', array('e', 'empresa'));
 
-        $mapValues[] = array(777777777, false);
-        $mapValues[] = array('', false);
-        $mapValues[] = array(1, false);
-        $mapValues[] = array(0, false);
-        $mapValues[] = array(false, false);
-        $mapValues[] = array(true, false);
-        $mapValues[] = array(null, false);
-        $mapValues[] = array(array(), false);
+        $mapValues[] = array(777777777, array());
+        $mapValues[] = array('', array());
+        $mapValues[] = array(1, array());
+        $mapValues[] = array(0, array());
+        $mapValues[] = array(false, array());
+        $mapValues[] = array(true, array());
+        $mapValues[] = array(null, array());
+        $mapValues[] = array(array(), array());
 
         return $mapValues;
     }
@@ -164,11 +158,7 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
      */
     public function test_RUTType($rut='', $expected='') {
         $result = $this->rutverifier->RUTType($rut);
-        if ($expected === false) {
-            $this->assertFalse($result);
-        } else {
-            $this->assertEquals($expected, $result);
-        }
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -179,13 +169,13 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         $mapValues[] = array('11111112', 'K');
         $mapValues[] = array('33333333', '3');
 
-        $mapValues[] = array('', false);
-        $mapValues[] = array(1, false);
-        $mapValues[] = array(0, false);
-        $mapValues[] = array(true, false);
-        $mapValues[] = array(false, false);
-        $mapValues[] = array(null, false);
-        $mapValues[] = array(array(), false);
+        $mapValues[] = array('', '');
+        $mapValues[] = array(1, '');
+        $mapValues[] = array(0, '');
+        $mapValues[] = array(true, '');
+        $mapValues[] = array(false, '');
+        $mapValues[] = array(null, '');
+        $mapValues[] = array(array(), '');
 
         return $mapValues;
     }
@@ -197,11 +187,7 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
      */
     public function test_getVerifier($rut='', $expected) {
         $result = $this->rutverifier->getVerifier($rut);
-        if ($expected === false) {
-            $this->assertFalse($result);
-        } else {
-            $this->assertEquals($expected, $result);
-        }
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -272,17 +258,6 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function test_c_javascript() {
-        $result = $this->rutverifier->c_javascript(false, false);
-        $this->assertStringStartsWith('function rutVerification(c){', $result);
-
-        $result = $this->rutverifier->c_javascript(false, true);
-        $this->assertStringStartsWith('<script type="text/javascript">function rutVerification(c){', $result);
-
-        ob_start();
-        $result = $this->rutverifier->c_javascript(true, true);
-        $this->assertStringStartsWith('<script type="text/javascript">function rutVerification(c){', $result);
-        ob_clean();
-
         $result = $this->rutverifier->constructJavascript(false, false);
         $this->assertStringStartsWith('function rutVerification(c){', $result);
 
@@ -299,5 +274,13 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         $output = sprintf($this->rutverifier);
         $this->assertStringStartsWith('rutverifier', $output);
     }
+
+    /* FOR LATER: verify that errors are effectively in array
+    public function provider_testErrorArray() {
+        $mapValues[] = array();
+
+        return $mapValues;
+    }
+    */
 }
 

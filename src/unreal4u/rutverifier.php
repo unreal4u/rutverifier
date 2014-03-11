@@ -24,7 +24,7 @@ namespace unreal4u;
  *
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 1.2.10
+ * @version 2.0.0
  * @license BSD License
  * @package rutverifier
  */
@@ -34,7 +34,7 @@ class rutverifier {
      * The version of this class
      * @var string
      */
-    private $classVersion = '1.2.10';
+    private $classVersion = '2.0.0';
 
     /**
      * Stores errors of the class
@@ -81,6 +81,7 @@ class rutverifier {
      */
     private function _logError($type, $msg='') {
         if (!empty($type)) {
+            $typeString = '';
             switch ($type) {
                 case 1:
                     $typeString = 'ERR';
@@ -108,12 +109,11 @@ class rutverifier {
      */
     public function addToBlacklist($add) {
         if (!empty($add)) {
-            if (is_array($add)) {
-                foreach ($add AS $a) {
-                    $this->blacklist[] = $a;
-                }
-            } else {
-                $this->blacklist[] = $add;
+            if (!is_array($add)) {
+                $add = array($add);
+            }
+            foreach ($add AS $a) {
+                $this->blacklist[] = $a;
             }
         }
 
@@ -132,10 +132,10 @@ class rutverifier {
      * @return mixed Returns boolean false in case of invalid RUT, array with data otherwise
      */
     public function RUTType($rut='') {
-        $output = false;
+        $output = array();
         if (!empty($rut) AND is_string($rut)) {
             $rut = $this->formatRUT($rut);
-            if ($rut !== false) {
+            if (!empty($rut)) {
                 $rut = substr($rut, 0, -1);
                 $output = array(
                     'n',
@@ -158,15 +158,15 @@ class rutverifier {
      *
      * @param string $rut The RUT/RUN we want to format
      * @param boolean $withVerifier Whether we want to print the verifier also. Defaults to true
-     * @return mixed Returns boolean false when RUT/RUN is invalid, string with the RUT/RUN otherwise
+     * @return string Returns empty string when RUT/RUN is invalid or a non-empty string with the RUT/RUN otherwise
      */
     public function formatRUT($rut='', $withVerifier=true) {
-        $output = false;
+        $output = '';
         if (!empty($rut)) {
             $tmpRUT = str_replace('k', 'K', preg_replace('/[^0-9kK]/', '', $rut));
 
             if (strlen($tmpRUT) < 8) {
-                $this->_logError(1, 'RUT/RUN doesn\'t have the required size');
+                $this->_logError(1, sprintf('RUT/RUN doesn\'t have the required size'));
             } else {
                 $tmpRUT = str_pad($tmpRUT, 9, '0', STR_PAD_LEFT);
             }
@@ -174,7 +174,7 @@ class rutverifier {
             if (strlen($tmpRUT) == 9) {
                 $output = str_replace('k', 'K', $tmpRUT);
             } else {
-                $this->_logError(1, 'RUT/RUN doesn\'t have the required size');
+                $this->_logError(1, sprintf('RUT/RUN doesn\'t have the required size'));
             }
 
             if ($withVerifier === false AND empty($this->error)) {
@@ -189,10 +189,10 @@ class rutverifier {
      * Calculates the verifier for a given RUT/RUN which must be provided without verifier
      *
      * @param string $rut RUT/RUN without verifier
-     * @return mixed Returns false if RUT/RUN is empty, or string with verifier otherwise
+     * @return mixed Returns empty string RUT/RUN is empty, or the verifier otherwise
      */
     public function getVerifier($rut='') {
-        $return = false;
+        $return = '';
         if (!empty($rut) AND is_string($rut)) {
             $multi = 2;
             $sum = 0;
@@ -237,10 +237,10 @@ class rutverifier {
             $sep['rut'] = substr($rut, 0, -1);
             $sep['dv'] = substr($rut, -1);
 
-            if ($this->RUTType($rut) !== false) {
+            if ($this->RUTType($rut) !== array()) {
                 $sep['dvt'] = $this->getVerifier($sep['rut']);
                 if ($sep['dvt'] != $sep['dv']) {
-                    $this->_logError(2, 'RUT/RUN (' . $sep['rut'] . ') and verifier (' . $sep['dv'] . ')  don\'t match');
+                    $this->_logError(2, sprintf('RUT/RUN (%s) and verifier (%s) don\'t match', $sep['rut'], $sep['dv']));
                 } else {
                     $isValid = true;
                 }
@@ -248,11 +248,11 @@ class rutverifier {
                 if ($extensiveCheck === true) {
                     if (in_array($sep['rut'] . $sep['dv'], $this->blacklist)) {
                         $isValid = false;
-                        $this->_logError(2, 'The entered RUT/RUN "'.$sep['rut'].$sep['dv'].'" is in blacklist');
+                        $this->_logError(2, sprintf('The entered RUT/RUN "%s%s" is in blacklist', $sep['rut'], $sep['dv']));
                     }
                 }
             } else {
-                $this->_logError(2, 'RUT/RUN isn\'t within range of natural person and/or enterprise');
+                $this->_logError(2, sprintf('RUT/RUN isn\'t within range of natural person and/or enterprise'));
             }
 
             $output[$rut] = array(
@@ -287,17 +287,5 @@ class rutverifier {
         }
 
         return $javascript;
-    }
-
-    /**
-     * Alias for constructJavascript. Will be removed in next mayor version
-     *
-     * @TODO CS@2014-02-27 Remove this on next mayor version
-     *
-     * @param boolean $echo
-     * @param boolean $with_headers
-     */
-    public function c_javascript($echo=false, $with_headers=false) {
-        return $this->constructJavascript($echo, $with_headers);
     }
 }

@@ -17,7 +17,7 @@ About this class
 * Will give you some information, such as the RUT/RUN being consulted is an enterprise (RUT) or a natural person (RUN).
 * Allows you to make use of a blacklist (Useful for known frauders).
 * Will also format the RUT/RUN into the correct format.
-* Can deliver also a pure Javascript coded version to verify the validity of a RUT/RUN
+* Can deliver also a pure (more basic) Javascript coded version to verify the validity of a RUT/RUN
 
 Detailed description
 ---------
@@ -26,9 +26,7 @@ This package will do all kinds of things you can do with a RUT or RUN, such as:
 
 * Verifying that it is valid.
 * Finding out whether it is a RUT or a RUN.
-* Format it to the correct format to use
-
-This package has been extensivily tested with xdebug and is properly PHPUnit tested so that no errors are present.
+* Format it to the correct format to use / store / work with
 
 Basic usage
 ----------
@@ -63,7 +61,8 @@ $rutverifier = new unreal4u\rutverifier();
 
 Pending
 ---------
-* None
+* Class will throw exceptions instead of adding silently to an internal error array
+* Native i18n support
 
 Version History
 ----------
@@ -94,6 +93,12 @@ Version History
     * Travis-CI support
     * Very small optimization on Javascript function
     * Began deprecating some old naming conventions
+* 2.0.0:
+    * Removed c_javascript function
+    * Standarized data type on return for all functions, no more mixed types
+    * Updated PHPUnit dependency to latest stable version
+    * Will now test PHP 5.3 in Travis-CI as well
+    * Class will now sprintf into the error array in preparation for later i18n implementation
 
 Contact the author
 -------
