@@ -163,21 +163,15 @@ class rutverifier {
     public function formatRUT($rut='', $withVerifier=true) {
         $output = '';
         if (!empty($rut)) {
-            $tmpRUT = str_replace('k', 'K', preg_replace('/[^0-9kK]/', '', $rut));
+            $tmpRUT = preg_replace('/[^0-9K]/i', '', $rut);
 
-            if (strlen($tmpRUT) < 8) {
-                $this->_logError(1, sprintf('RUT/RUN doesn\'t have the required size'));
-            } else {
-                $tmpRUT = str_pad($tmpRUT, 9, '0', STR_PAD_LEFT);
+            if (strlen($tmpRUT) > 7) {
+                $output = str_pad(str_replace('k', 'K', $tmpRUT), 9, '0', STR_PAD_LEFT);
             }
 
-            if (strlen($tmpRUT) == 9) {
-                $output = str_replace('k', 'K', $tmpRUT);
-            } else {
+            if (strlen($output) !== 9) {
                 $this->_logError(1, sprintf('RUT/RUN doesn\'t have the required size'));
-            }
-
-            if ($withVerifier === false && empty($this->error)) {
+            } elseif ($withVerifier === false) {
                 $output = substr($output, 0, -1);
             }
         }
@@ -198,20 +192,16 @@ class rutverifier {
             $sum = 0;
             $strlenRut = strlen($rut);
             for ($i = $strlenRut - 1; $i >= 0; $i--) {
-                $sum = $sum + $rut[$i] * $multi;
-                if ($multi == 7) {
+                $sum += ($rut[$i] * $multi);
+                $multi++;
+                if ($multi == $strlenRut) {
                     $multi = 2;
-                } else {
-                    $multi++;
                 }
             }
-            $rest = $sum % 11;
-            if ($rest === 1) {
-                $return = 'K';
-            } elseif ($rest === 0) {
-                $return = '0';
-            } else {
-                $return = (string)(11 - $rest);
+
+            $return = (string)(11 - ($sum % 11));
+            if ($sum % 11 < 2) {
+                $return = str_replace(array(0, 1), array('0', 'K'), $sum % 11);
             }
         }
 
@@ -236,36 +226,36 @@ class rutverifier {
                 'rut' => substr($rut, 0, -1),
                 'dv'  => substr($rut, -1),
             );
+            $rutType = $this->RUTType($rut);
 
-            if ($this->RUTType($rut) !== array()) {
-                $sep['dvt'] = $this->getVerifier($sep['rut']);
-                if ($sep['dvt'] != $sep['dv']) {
+            if ($rutType !== array()) {
+                $isValid = true;
+                if ($this->getVerifier($sep['rut']) != $sep['dv']) {
                     $this->_logError(2, sprintf('RUT/RUN (%s) and verifier (%s) don\'t match', $sep['rut'], $sep['dv']));
-                } else {
-                    $isValid = true;
+                    $isValid = false;
                 }
 
-                if ($extensiveCheck === true) {
+                if ($isValid === true && $extensiveCheck === true) {
                     if (in_array($sep['rut'] . $sep['dv'], $this->blacklist)) {
                         $isValid = false;
                         $this->_logError(2, sprintf('The entered RUT/RUN "%s%s" is in blacklist', $sep['rut'], $sep['dv']));
                     }
                 }
             } else {
-                $this->_logError(2, sprintf('RUT/RUN isn\'t within range of natural person and/or enterprise'));
+                $this->_logError(2, sprintf('RUT/RUN isn\'t within range of natural person or enterprise'));
             }
 
             $output[$rut] = array(
                 'isValid'  => $isValid,
                 'rut'      => $sep['rut'],
                 'verifier' => $sep['dv'],
-                'type'     => $this->RUTType($rut),
+                'type'     => $rutType,
             );
         }
+
         if ($returnBoolean === true) {
             return $isValid;
         }
-
         return $output;
     }
 

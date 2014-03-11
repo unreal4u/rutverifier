@@ -1,4 +1,4 @@
-<phpunit colors="true">
+<phpunit colors="true" strict="true">
     <filter>
         <blacklist>
             <directory suffix=".php">./vendor</directory>

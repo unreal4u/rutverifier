@@ -200,6 +200,7 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         $mapValues[] = array('306869574', true, false, array('306869574' => array('isValid' => true, 'rut' => '30686957', 'verifier' => '4', 'type' => array(0 => 'n', 1 => 'natural'))));
 
         $mapValues[] = array('24852023-k', true, true, true);
+        $mapValues[] = array('24852023-k', true, false, array('24852023K' => array('isValid' => true, 'rut' => '24852023', 'verifier' => 'K', 'type' => array(0 => 'n', 1 => 'natural'))));
         $mapValues[] = array('22784591-0', true, true, true);
         $mapValues[] = array('10434293-0', true, true, true);
         $mapValues[] = array('9800110-7', true, true, true);
