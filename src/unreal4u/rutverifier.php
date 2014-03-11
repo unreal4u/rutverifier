@@ -24,7 +24,7 @@ namespace unreal4u;
  *
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 2.0.0
+ * @version 2.0.1
  * @license BSD License
  * @package rutverifier
  */
@@ -34,7 +34,7 @@ class rutverifier {
      * The version of this class
      * @var string
      */
-    private $classVersion = '2.0.0';
+    private $classVersion = '2.0.1';
 
     /**
      * Stores errors of the class
@@ -129,11 +129,11 @@ class rutverifier {
      * @see $this->isValidRUT()
      *
      * @param string $rut The RUT for which we want to know
-     * @return mixed Returns boolean false in case of invalid RUT, array with data otherwise
+     * @return array Returns empty array in case of invalid RUT, filled in array with data otherwise
      */
     public function RUTType($rut='') {
         $output = array();
-        if (!empty($rut) AND is_string($rut)) {
+        if (!empty($rut) && is_string($rut)) {
             $rut = $this->formatRUT($rut);
             if (!empty($rut)) {
                 $rut = substr($rut, 0, -1);
@@ -141,7 +141,7 @@ class rutverifier {
                     'n',
                     'natural',
                 );
-                if ($rut < 100000000 AND $rut > 50000000) {
+                if ($rut < 100000000 && $rut > 50000000) {
                     $output = array(
                         'e',
                         'empresa',
@@ -177,7 +177,7 @@ class rutverifier {
                 $this->_logError(1, sprintf('RUT/RUN doesn\'t have the required size'));
             }
 
-            if ($withVerifier === false AND empty($this->error)) {
+            if ($withVerifier === false && empty($this->error)) {
                 $output = substr($output, 0, -1);
             }
         }
@@ -189,11 +189,11 @@ class rutverifier {
      * Calculates the verifier for a given RUT/RUN which must be provided without verifier
      *
      * @param string $rut RUT/RUN without verifier
-     * @return mixed Returns empty string RUT/RUN is empty, or the verifier otherwise
+     * @return string Returns empty string RUT/RUN is empty, or the verifier otherwise
      */
     public function getVerifier($rut='') {
         $return = '';
-        if (!empty($rut) AND is_string($rut)) {
+        if (!empty($rut) && is_string($rut)) {
             $multi = 2;
             $sum = 0;
             $strlenRut = strlen($rut);
@@ -206,14 +206,12 @@ class rutverifier {
                 }
             }
             $rest = $sum % 11;
-            if ($rest == 1) {
+            if ($rest === 1) {
                 $return = 'K';
+            } elseif ($rest === 0) {
+                $return = '0';
             } else {
-                if ($rest == 0) {
-                    $return = '0';
-                } else {
-                    $return = 11 - $rest;
-                }
+                $return = (string)(11 - $rest);
             }
         }
 
@@ -234,8 +232,10 @@ class rutverifier {
 
         if (!empty($rut)) {
             $rut = $this->formatRUT($rut, true);
-            $sep['rut'] = substr($rut, 0, -1);
-            $sep['dv'] = substr($rut, -1);
+            $sep = array(
+                'rut' => substr($rut, 0, -1),
+                'dv'  => substr($rut, -1),
+            );
 
             if ($this->RUTType($rut) !== array()) {
                 $sep['dvt'] = $this->getVerifier($sep['rut']);
