@@ -2,4 +2,6 @@ tests/ export-ignore
 vendor/ export-ignore
 doc/ export-ignore
 .git* export-ignore
+composer.lock export-ignore
+.travis.yml export-ignore
 *.php diff=php
