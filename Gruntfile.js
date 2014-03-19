@@ -12,7 +12,7 @@ module.exports = function (grunt) {
             }
         },
         qunit: {
-            files: ['js/test/*.html']
+            files: ['js/tests/*.html']
         },
         jshint: {
             options : {
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
                 maxdepth : 4,
                 maxstatements : 50
             },
-            all : [ 'Gruntfile.js', 'js/src/*.js' ]
+            all: ['Gruntfile.js', 'js/src/<%= pkg.name %>.js']
         }
     });
 
@@ -47,5 +47,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('default', ['jshint', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'qunit', 'uglify']);
+    grunt.registerTask('test', ['jshint', 'qunit']);
 };

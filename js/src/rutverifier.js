@@ -4,11 +4,11 @@
  * @param c
  * @returns {Boolean}
  */
-function rutVerification(c) {
+function rutVerification(originalInput) {
     'use strict';
-    var isValid = false, d = c.value, formattedRut = d.replace(/\b[0-9kK]+\b/g, ''),
-        rut = '', verifier = '', sum = 0, multi = 2, verifierResult = '0',
-        numericVerifier = 0, i = 0, modulus = 0;
+    var isValid = false, formattedRut = originalInput.replace(/\b[0-9kK]+\b/g, ''), rut = '', verifier = '',
+        sum = 0, multi = 2, verifierResult = '0', numericVerifier = 0, i = 0,
+        modulus = 0;
     if (formattedRut.length === 8) {
         formattedRut = '0' + formattedRut;
     }
@@ -44,7 +44,6 @@ function rutVerification(c) {
 
             if (verifierResult === verifier) {
                 isValid = true;
-                c.value = rut.substring(0, 2) + '.' + rut.substring(2, 5) + '.' + rut.substring(5, 8) + '-' + verifierResult;
             }
         }
     }
