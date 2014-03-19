@@ -1,16 +1,19 @@
 {
-  "name": "rutverifier",
-  "version": "2.1.0",
-  "description": "Build environment for JavaScript",
-  "author": "Camilo Sperberg <me@unreal4u.com>",
-  "devDependencies": {
-    "grunt-cli": "latest",
-    "grunt": "latest",
-    "grunt-contrib-jshint": "latest",
-    "grunt-contrib-qunit": "latest",
-    "grunt-qunit-junit": "latest",
-    "grunt-contrib-watch": "latest",
-    "grunt-qunit-cov": "latest",
-    "grunt-contrib-uglify": "latest"
-  }
+    "name": "rutverifier",
+    "version": "2.1.0",
+    "description": "Build environment for JavaScript",
+    "author": "Camilo Sperberg <me@unreal4u.com>",
+    "devDependencies": {
+        "grunt-cli": "latest",
+        "grunt": "latest",
+        "grunt-contrib-jshint": "latest",
+        "grunt-contrib-qunit": "latest",
+        "grunt-qunit-junit": "latest",
+        "grunt-contrib-watch": "latest",
+        "grunt-qunit-cov": "latest",
+        "grunt-contrib-uglify": "latest"
+    },
+    "scripts": {
+        "test": "grunt travis --verbose"
+    }
 }

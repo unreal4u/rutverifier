@@ -48,5 +48,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
     grunt.registerTask('default', ['jshint', 'qunit', 'uglify']);
-    grunt.registerTask('test', ['jshint', 'qunit']);
+    grunt.registerTask('quicktest', ['jshint', 'qunit']);
+    grunt.registerTask('travis', ['jshint', 'qunit']);
 };
