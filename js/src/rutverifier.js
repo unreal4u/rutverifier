@@ -1,46 +1,54 @@
+/**
+ * Validates a chilean RUT, returning a true if valid, false otherwise
+ *
+ * @param c
+ * @returns {Boolean}
+ */
 function rutVerification(c) {
     "use strict";
-    var r = false, d = c.value, t = d.replace(/\b[0-9kK]+\b/g, ''), a = '', b = '', s = 0, m = 2, x = '0', e = 0, i = 0, y = 0;
-    if (t.length === 8) {
-        t = '0' + t;
+    var isValid = false, d = c.value, formattedRut = d.replace(/\b[0-9kK]+\b/g, ''),
+        rut = '', verifier = '', sum = 0, multi = 2, verifierResult = '0',
+        numericVerifier = 0, i = 0, modulus = 0;
+    if (formattedRut.length === 8) {
+        formattedRut = '0' + formattedRut;
     }
 
-    if (t.length === 9) {
-        a = t.substring(t.length - 1, -1);
-        b = t.charAt(t.length - 1);
-        if (b === 'k') {
-            b = 'K';
+    if (formattedRut.length === 9) {
+        rut = formattedRut.substring(formattedRut.length - 1, -1);
+        verifier = formattedRut.charAt(formattedRut.length - 1);
+        if (verifier === 'k') {
+            verifier = 'K';
         }
 
-        if (!isNaN(a)) {
-            for (i = a.length - 1; i >= 0; i -= 1) {
-                s = s + a.charAt(i) * m;
-                if (m === 7) {
-                    m = 2;
+        if (!isNaN(rut)) {
+            for (i = rut.length - 1; i >= 0; i -= 1) {
+                sum += rut.charAt(i) * multi;
+                if (multi === 7) {
+                    multi = 2;
                 } else {
-                    m += 1;
+                    multi += 1;
                 }
             }
-            y = s % 11;
+            modulus = sum % 11;
 
-            if (y === 1) {
-                x = 'K';
+            if (modulus === 1) {
+                verifierResult = 'K';
             } else {
-                if (y === 0) {
-                    x = '0';
+                if (modulus === 0) {
+                    verifierResult = '0';
                 } else {
-                    e = 11 - y;
-                    x = e.toString();
+                    numericVerifier = 11 - modulus;
+                    verifierResult = numericVerifier.toString();
                 }
             }
 
-            if (x === b) {
-                r = true;
-                c.value = a.substring(0, 2) + '.' + a.substring(2, 5) + '.'
-                        + a.substring(5, 8) + '-' + b;
+            if (verifierResult === verifier) {
+                isValid = true;
+                c.value = rut.substring(0, 2) + '.' + rut.substring(2, 5) + '.'
+                        + rut.substring(5, 8) + '-' + verifierResult;
             }
         }
     }
 
-    return r;
+    return isValid;
 }
