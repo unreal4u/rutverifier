@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                 strict : true,
                 trailing : true,
                 maxparams : 3,
-                maxdepth : 4,
+                maxdepth : 5,
                 maxstatements : 50
             },
             all: ['Gruntfile.js', 'js/src/<%= pkg.name %>.js']
