@@ -60,6 +60,30 @@ require('vendor/autoload.php');
 $rutverifier = new unreal4u\rutverifier();
 </pre>
 
+Developing
+----------
+
+In order to develop, you'll have to install some tools.
+First composer.phar
+Then Node.js
+
+Then execute the following at the root of the project:
+<pre>
+composer.phar install
+npm install
+</pre>
+
+In order to do the JavaScript testing and validation, execute the following in
+the root dir:
+<pre>
+node_modules/.bin/grunt jshint
+</pre>
+
+In order to do the PHP testing, execute the following in the root dir:
+<pre>
+vendor/bin/phpunit
+</pre>
+
 Pending
 ---------
 * Class will throw exceptions instead of adding silently to an internal error array

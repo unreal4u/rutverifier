@@ -5,7 +5,7 @@
  * @returns {Boolean}
  */
 function rutVerification(c) {
-    "use strict";
+    'use strict';
     var isValid = false, d = c.value, formattedRut = d.replace(/\b[0-9kK]+\b/g, ''),
         rut = '', verifier = '', sum = 0, multi = 2, verifierResult = '0',
         numericVerifier = 0, i = 0, modulus = 0;
@@ -44,8 +44,7 @@ function rutVerification(c) {
 
             if (verifierResult === verifier) {
                 isValid = true;
-                c.value = rut.substring(0, 2) + '.' + rut.substring(2, 5) + '.'
-                        + rut.substring(5, 8) + '-' + verifierResult;
+                c.value = rut.substring(0, 2) + '.' + rut.substring(2, 5) + '.' + rut.substring(5, 8) + '-' + verifierResult;
             }
         }
     }
