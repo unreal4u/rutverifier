@@ -4,12 +4,13 @@
   "description": "Build environment for JavaScript",
   "author": "Camilo Sperberg <me@unreal4u.com>",
   "devDependencies": {
-    "grunt-cli": "0.1.6",
-    "grunt": "0.4.0",
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-qunit": "~0.1.1",
-    "grunt-qunit-junit": "~0.1.0",
-    "grunt-contrib-watch": "~0.2.0",
-    "grunt-qunit-cov": "~0.3.2"
+    "grunt-cli": "latest",
+    "grunt": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-qunit": "latest",
+    "grunt-qunit-junit": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-qunit-cov": "latest",
+    "grunt-contrib-uglify": "latest"
   }
 }

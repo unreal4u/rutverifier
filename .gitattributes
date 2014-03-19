@@ -4,4 +4,5 @@ doc/ export-ignore
 .git* export-ignore
 composer.lock export-ignore
 .travis.yml export-ignore
+node_modules export-ignore
 *.php diff=php
