@@ -71,15 +71,16 @@ Then execute the following at the root of the project:
 <pre>
 composer.phar install
 npm install
+npm install -g grunt-cli
 </pre>
 
-In order to do the JavaScript testing and validation, execute the following in
+In order to do the JavaScript testing and validation, execute the following at
 the root dir:
 <pre>
-node_modules/.bin/grunt jshint
+grunt
 </pre>
 
-In order to do the PHP testing, execute the following in the root dir:
+In order to do the PHP testing, execute the following at the root dir:
 <pre>
 vendor/bin/phpunit
 </pre>
@@ -124,6 +125,8 @@ Version History
     * Updated PHPUnit dependency to latest stable version
     * Will now test PHP 5.3 in Travis-CI as well
     * Class will now sprintf into the error array in preparation for later i18n implementation
+* 2.1.0:
+    * Now checking JavaScript code with grunt
 
 Contact the author
 -------

@@ -260,14 +260,14 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
 
     public function test_c_javascript() {
         $result = $this->rutverifier->constructJavascript(false, false);
-        $this->assertStringStartsWith('function rutVerification(c){', $result);
+        $this->assertStringStartsWith('function rutVerification(', $result);
 
         $result = $this->rutverifier->constructJavascript(false, true);
-        $this->assertStringStartsWith('<script type="text/javascript">function rutVerification(c){', $result);
+        $this->assertStringStartsWith('<script type="text/javascript">function rutVerification(', $result);
 
         ob_start();
         $result = $this->rutverifier->constructJavascript(true, true);
-        $this->assertStringStartsWith('<script type="text/javascript">function rutVerification(c){', $result);
+        $this->assertStringStartsWith('<script type="text/javascript">function rutVerification(', $result);
         ob_clean();
     }
 
