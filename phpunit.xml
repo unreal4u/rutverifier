@@ -11,6 +11,6 @@
 
     <logging>
         <!-- Enable log below to get code coverage report -->
-        <log type="coverage-html" target="tests/report/" charset="UTF-8"/>
+        <!-- log type="coverage-html" target="tests/report/" charset="UTF-8"/-->
     </logging>
 </phpunit>
