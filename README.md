@@ -73,7 +73,6 @@ Version History
 
 * 1.0 :
     * Initial version
-
 * 1.1:
     * PHPUnit testing
     * Documentation improved (Created this README actually)

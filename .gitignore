@@ -6,4 +6,3 @@ tests/launchers
 vendor/
 composer.lock
 doc/
-node_modules/
