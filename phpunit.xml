@@ -1,4 +1,4 @@
-<phpunit colors="true" strict="true">
+<phpunit colors="true" strict="true" bootstrap="tests/bootstrap.php">
     <filter>
         <blacklist>
             <directory suffix=".php">./vendor</directory>
@@ -11,6 +11,6 @@
 
     <logging>
         <!-- Enable log below to get code coverage report -->
-        <!-- log type="coverage-html" target="tests/report/" charset="UTF-8"/ -->
+        <log type="coverage-html" target="tests/report/" charset="UTF-8"/>
     </logging>
 </phpunit>

@@ -1,7 +1,5 @@
 <?php
 
-require_once 'src/unreal4u/rutverifier.php';
-
 /**
  * rutverifier test case.
  */
@@ -258,7 +256,7 @@ class rutverifierTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    public function test_c_javascript() {
+    public function test_constructJavascript() {
         $result = $this->rutverifier->constructJavascript(false, false);
         $this->assertStringStartsWith('function rutVerification(', $result);
 
