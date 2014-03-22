@@ -24,7 +24,7 @@ namespace unreal4u;
  *
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 2.2.0
+ * @version 2.2.1
  * @license BSD License
  * @package rutverifier
  */
@@ -34,7 +34,7 @@ class rutverifier extends javascriptLoader {
      * The version of this class
      * @var string
      */
-    private $classVersion = '2.2.0';
+    private $classVersion = '2.2.1';
 
     /**
      * Stores errors of the class
