@@ -2,7 +2,8 @@
   "name" : "unreal4u/rutverifier",
   "description" : "This class is able to do integrity verification on chilean RUTs and RUNs",
   "require" : {
-    "php" : ">=5.3.0"
+    "php" : ">=5.3.0",
+    "unreal4u/rutverifier-js": "@stable"
   },
   "require-dev" : {
     "phpunit/phpunit" : "@stable"

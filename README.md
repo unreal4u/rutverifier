@@ -9,7 +9,7 @@ rutverifier.php
 Credits
 --------
 
-This class is made by unreal4u (Camilo Sperberg). [http://unreal4u.com/](unreal4u.com).
+This class is made by unreal4u (Camilo Sperberg) [Homepage](http://unreal4u.com/)
 
 About this class
 --------
@@ -60,30 +60,8 @@ require('vendor/autoload.php');
 $rutverifier = new unreal4u\rutverifier();
 </pre>
 
-Developing
-----------
-
-In order to develop, you'll have to install some tools.
-First composer.phar
-Then Node.js
-
-Then execute the following at the root of the project:
-<pre>
-composer.phar install
-npm install
-npm install -g grunt-cli
-</pre>
-
-In order to do the JavaScript testing and validation, execute the following at
-the root dir:
-<pre>
-grunt
-</pre>
-
-In order to do the PHP testing, execute the following at the root dir:
-<pre>
-vendor/bin/phpunit
-</pre>
+Don't forget to do a <code>composer.phar install</code> or download and include
+<code>http://packagist.org/unreal4u/rutverifier-js</code> manually
 
 Pending
 ---------
@@ -127,6 +105,9 @@ Version History
     * Class will now sprintf into the error array in preparation for later i18n implementation
 * 2.1.0:
     * Now checking JavaScript code with grunt
+* 2.2.0:
+    * This class has now a dependency on unreal4u/rutverifier-js, downloadable on packagist
+    * Cleaned up javascript code that had nothing to do with PHP
 
 Contact the author
 -------

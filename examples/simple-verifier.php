@@ -1,6 +1,6 @@
 <?php
 
-include('../src/unreal4u/rutverifier.php');
+include('../vendor/autoload.php');
 
 $rutVerifier = new unreal4u\rutverifier();
 
@@ -12,4 +12,7 @@ var_dump($rutVerifier->isValidRUT('30.686.957-0'));
 
 var_dump($rutVerifier->formatRUT('30.686.957-0', false));
 
-echo $rutVerifier;
+echo $rutVerifier.'<br />'.PHP_EOL;
+
+// Include javascript validation with the following function:
+echo $rutVerifier->constructJavascript();

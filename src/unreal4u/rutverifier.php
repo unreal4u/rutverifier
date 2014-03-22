@@ -24,17 +24,17 @@ namespace unreal4u;
  *
  * @author Camilo Sperberg
  * @copyright 2010 - 2013 Camilo Sperberg
- * @version 2.1.0
+ * @version 2.2.0
  * @license BSD License
  * @package rutverifier
  */
-class rutverifier {
+class rutverifier extends javascriptLoader {
 
     /**
      * The version of this class
      * @var string
      */
-    private $classVersion = '2.1.0';
+    private $classVersion = '2.2.0';
 
     /**
      * Stores errors of the class
@@ -257,25 +257,5 @@ class rutverifier {
             return $isValid;
         }
         return $output;
-    }
-
-    /**
-     * Returns a function in JavaScript, a bit easier than it's PHP version to verify that the RUT is correct
-     *
-     * @param boolean $printIt Whether to print it directly
-     * @param boolean $withHeaders To output javascript headers also or return only javascript
-     */
-    public function constructJavascript($printIt=false, $withHeaders=false) {
-        $javascript = file_get_contents(realpath(dirname(__FILE__)).'/../../js/rutverifier.min.js');
-
-        if ($withHeaders === true) {
-            $javascript = '<script type="text/javascript">'.$javascript.'</script>';
-        }
-
-        if ($printIt === true) {
-            echo $javascript;
-        }
-
-        return $javascript;
     }
 }
