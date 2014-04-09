@@ -1,6 +1,7 @@
 [![Latest Stable Version](https://poser.pugx.org/unreal4u/rutverifier/v/stable.png)](https://packagist.org/packages/unreal4u/rutverifier)
 [![Build Status](https://travis-ci.org/unreal4u/rutverifier.png?branch=master)](https://travis-ci.org/unreal4u/rutverifier)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/unreal4u/rutverifier/badges/quality-score.png?s=41b9a0c72279222d0e5172565ea4f9944b6c0e5e)](https://scrutinizer-ci.com/g/unreal4u/rutverifier/)
+[![Code Coverage](https://scrutinizer-ci.com/g/unreal4u/rutverifier/badges/coverage.png?s=bf9bcc36803a605d4f7d2e642c1b2648af94cb2c)](https://scrutinizer-ci.com/g/unreal4u/rutverifier/)
 [![License](https://poser.pugx.org/unreal4u/rutverifier/license.png)](https://packagist.org/packages/unreal4u/rutverifier)
 
 rutverifier.php
